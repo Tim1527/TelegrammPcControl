@@ -1,10 +1,17 @@
-import telebot, Telega,time,pyautogui
+import telebot, Telega,pyautogui
 import cv2Code
 
 connection = False
 user_id = 0
 HotkeyMode = False
 ScrollMode = False
+
+ru,eng = [],[]
+for x in "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя":
+    ru.append(x)
+for y in 'F<DULT~:PBQRKVYJGHCNEA{WXIO}SM">Zf,dult`;pbqrkvyjghcnea[wxio]sm'+"'"+'.z':
+    eng.append(y)
+Translit = dict(zip(ru,eng))
 
 with open(r"teletoken.txt") as token:
     token = token.readline()
@@ -69,7 +76,7 @@ def Cam(message):
         for i in range(4,-1,-1):
             if cv2Code.PhotoCam(i):
                 with open("cam_old.png", "rb") as screen:
-                    bot.send_photo(message.chat.id, screen)
+                    bot.send_photo(message.chat.id, screen,timeout=100)
 
 @bot.message_handler(commands = ["LKM"])
 def LKM(message):
@@ -122,9 +129,13 @@ def message_check(message):
                 bot.send_message(message.chat.id, "Try again, input error 'not int'")
             ScrollMode = False
         else:
-           text = message.text
-           pyautogui.write(text)
-        PrtSc(message)
+            translited_text = ""
+            for letter in text:
+                if letter in ru:
+                    translited_text += Translit[letter]
+                else: translited_text += letter
+            pyautogui.write(translited_text)
+        #PrtSc(message)
 
 @bot.message_handler(content_types = ["photo"])
 def message_check(message):
@@ -139,4 +150,4 @@ def message_check(message):
     PrtSc(message)
 
 
-bot.polling(none_stop=True,interval = 0,long_polling_timeout = 100)
+bot.polling(none_stop=True,interval = 0,long_polling_timeout = 200)
