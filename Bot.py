@@ -48,10 +48,23 @@ def password_enter(message):
         connection = True
         TL = Telega.Telega(message)
         id = message.from_user.id
-        TL.Reply_btns("Connection established",True,3, "/LKM","/2LKM","/RKM","/Scroll","/Hotkey","/PrtSc", "/Cam","/session")
+        TL.Reply_btns("Connection established",True,4, "/LKM","/2LKM","/Enter","/Bcksp","/RKM","/Scroll","/Hotkey","/Shift","/PrtSc", "/Cam","/session")
+        bot.delete_message(message.chat.id, message.id)
     else:
         bot.send_message(message.chat.id,"Wrong password, try again.")
+        bot.delete_message(message.chat.id, message.id)
         password_check(message)
+@bot.message_handler(commands = ["Enter"])
+def Enter(message):
+    pyautogui.press('enter')
+
+@bot.message_handler(commands = ["Shift"])
+def Shift(message):
+    pyautogui.press('shift')
+@bot.message_handler(commands = ["Bcksp"])
+def Bcksp(message):
+    pyautogui.press('backspace')
+
 
 @bot.message_handler(commands = ["disconnect"])
 def disconnect(message):
