@@ -9,6 +9,7 @@ class Telega:
     def __init__(self, message):
         self.message = message
 
+    #Сщздание Reply кнопок
     def Reply_btns(self,bot_say,resize ,row_width: int=3,*names):
         if type(names[0]) is type([]):names = names[0]
 
@@ -20,10 +21,12 @@ class Telega:
         markup.add(*BtnList)
         bot.send_message(self.message.chat.id, bot_say, reply_markup=markup)
 
+    #Очистка Reply клавиатуры
     def CleanReplyBtns(self,bot_say):
         markup = types.ReplyKeyboardRemove()
         bot.send_message(self.message.chat.id, bot_say, reply_markup=markup)
 
+    #Cсоздание Inline кнопок
     def Inline_btns(self,bot_say,row_width,*names,callback_add=""):
         if type(names[0]) is type([]):names = names[0]
         markup = types.InlineKeyboardMarkup(row_width=row_width)
@@ -47,15 +50,3 @@ class Telega:
     или с помощью массива.
     Для второго случая перед массивом нужно будет поставить звездочку '*' (  bot_say, row_width, *['1','2','3']
     """
-
-    def checkCommand(name, mass):
-        if name in mass:
-            pass
-        else:
-            mass.append(f"{name}")
-
-def transform(sql_text):
-        return str(sql_text).translate({ord(i): None for i in '['}).translate({ord(i): None for i in ']'}).translate\
-            ({ord(i): None for i in ')'}).translate({ord(i): None for i in '('})\
-            .translate({ord(i): None for i in "'"}).translate({ord(i): None for i in ','}).split(" ")
-
