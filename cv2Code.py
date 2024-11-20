@@ -28,7 +28,7 @@ def coords(img_name):
         return [x, y]
 
     except:
-        cv2.imwrite("ErrorImage.png",img)
+        cv2.imwrite("Images/ErrorImage.png", img)
         return [0,0]
 
 #Добавляет(рисует) курсор на скриншоте
@@ -44,7 +44,7 @@ def PhotoCam(kamera_number):
         # for i in range(30):
         #     cap.read()
         ret, frame = cap.read()
-        cv2.imwrite('cam_old.png', frame)
+        cv2.imwrite('Images/cam_old.png', frame)
         cap.release()
         return True
     except: return False

@@ -9,13 +9,13 @@ user_id = 0
 HotkeyMode = False
 ScrollMode = False
 
-with open("Keyboard_keys.txt") as f:
+with open("Text files/Keyboard_keys.txt") as f:
     KEYBOARD_KEYS = f.read()
 
-with open(r"teletoken.txt") as token:
+with open(r"Text files/teletoken.txt") as token:
     token = token.readline()
 
-with open('Translit.pkl', 'rb') as f:
+with open('Text files/Translit.pkl', 'rb') as f:
     Translit = pickle.load(f)
 
 bot = telebot.TeleBot(token)
@@ -91,10 +91,10 @@ def disconnect(message):
 @bot.message_handler(commands = ["PrtSc"])
 def prtsc(message):
     if connection and message.from_user.id == id:
-        screen = pyautogui.screenshot('screenshot1.png')
-        cv2Code.add_cursor('screenshot1.png')
-        with open("screenshot1.png","rb") as screen:
-            bot.send_photo(message.chat.id, screen)
+        screen = pyautogui.screenshot('Images/screenshot1.png')
+        cv2Code.add_cursor('Images/screenshot1.png')
+        with open("Images/screenshot1.png", "rb") as screen:
+            bot.send_photo(message.chat.id, screen, timeout=10)
 
 #Делает снимок со всех камер, сохраняет его и отправляет пользователю.
 @bot.message_handler(commands = ["Cam"])
@@ -102,7 +102,7 @@ def cam(message):
     if connection and message.from_user.id == id:
         for i in range(4,-1,-1):
             if cv2Code.PhotoCam(i):
-                with open("cam_old.png", "rb") as screen:
+                with open("Images/cam_old.png", "rb") as screen:
                     bot.send_photo(message.chat.id, screen,timeout=100)
 
 #Нажатие левой кнопки мыши
@@ -176,7 +176,7 @@ def message_check(message):
         else: #Печатает текст отправленный пользователем
             translited_text = ""
             for letter in text:
-                if letter.lower in "абвгдеёжзийклмнопрстуфхцчшщъыьэюя":
+                if letter.lower() in "абвгдеёжзийклмнопрстуфхцчшщъыьэюя":
                     translited_text += Translit[letter]
                 else: translited_text += letter
             pyautogui.write(translited_text)
@@ -187,10 +187,10 @@ def message_check(message):
 def message_check(message):
     file_info = bot.get_file(message.photo[len(message.photo) - 1].file_id)
     downloaded_file = bot.download_file(file_info.file_path)
-    with open("screenshot.png", 'wb') as new_file:
+    with open("Images/screenshot.png", 'wb') as new_file:
         new_file.write(downloaded_file)
     bot.reply_to(message, "Catched")
-    x,y = cv2Code.coords("screenshot.png")
+    x,y = cv2Code.coords("Images/screenshot.png")
     pyautogui.FAILSAFE = False
     pyautogui.moveTo(x,y)
     prtsc(message)

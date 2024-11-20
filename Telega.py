@@ -1,7 +1,7 @@
 import telebot
 from telebot import types
 
-token = open(r"teletoken.txt").readline()
+token = open(r"Text files/teletoken.txt").readline()
 bot = telebot.TeleBot(token)
 
 class Telega:
