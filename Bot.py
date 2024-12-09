@@ -40,7 +40,7 @@ def sesion_connect(message):
         password_check(message)
     if connection:
         TL = Telega.Telega(message)
-        TL.Reply_btns(f"Session name: {Session_name}",True,1, "/disconnect")
+         bot.send_message(message.chat.id,"You are not the owner")
 
 #запрашивает пароль и через next_step_handler вызывает функцию проверки пароля
 def password_check(message):
